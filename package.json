@@ -1,0 +1,12 @@
+{
+  "name": "calculadora-impresion-3d",
+  "version": "1.0.0",
+  "description": "Calculadora web para presupuestos de impresión 3D",
+  "main": "calculadora_web.html",
+  "scripts": {
+    "start": "open calculadora_web.html"
+  },
+  "keywords": ["3d-printing", "calculator", "budget"],
+  "author": "Tu Nombre",
+  "license": "MIT"
+}
