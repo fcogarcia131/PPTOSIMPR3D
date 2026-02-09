@@ -2,7 +2,7 @@
   "name": "Calculadora Impresión 3D",
   "short_name": "Calc 3D",
   "description": "Calculadora web para presupuestos de impresión 3D",
-  "start_url": "calculadora_web.html",
+  "start_url": "index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#3498db",
