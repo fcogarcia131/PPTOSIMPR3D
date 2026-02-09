@@ -1,0 +1,2 @@
+# Este proyecto es frontend, no requiere dependencias Python
+# Solo necesitas un navegador web moderno
