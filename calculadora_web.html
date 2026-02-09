@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Impresión 3D</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .header .logo {
+            max-width: 200px;
+            width: 60%;
+            height: auto;
+            margin-bottom: 15px;
+            border-radius: 10px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .form-container {
+            padding: 30px 20px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .input-group input[type="number"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            background: #f8f9fa;
+        }
+
+        .input-group input[type="number"]:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+        }
+
+        .checkbox-container {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .checkbox-container label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 10px;
+        }
+
+        .btn-calculate {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-calculate:active {
+            transform: scale(0.98);
+        }
+
+        .btn-reset {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-reset:active {
+            transform: scale(0.98);
+        }
+
+        .result-container {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .result-container.visible {
+            display: block;
+        }
+
+        .result-title {
+            text-align: center;
+            color: #667eea;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #dee2e6;
+            font-size: 15px;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .result-item .label {
+            color: #495057;
+            font-weight: 500;
+        }
+
+        .result-item .value {
+            color: #212529;
+            font-weight: 700;
+        }
+
+        .result-total {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .result-total .label {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .result-total .value {
+            font-size: 36px;
+            font-weight: 900;
+        }
+
+        .divider {
+            height: 2px;
+            background: #667eea;
+            margin: 15px 0;
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 20px;
+            }
+
+            .result-total .value {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://raw.githubusercontent.com/foogarcia131/CALCULADORA-PPTOS-3D/main/logo.jpg" alt="ForgeNavi Studio" class="logo">
+            <h1>🖨️ Calculadora 3D</h1>
+            <p>Calcula presupuestos de impresión 3D</p>
+        </div>
+
+        <div class="form-container">
+            <div class="input-group">
+                <label for="filamento">💵 Coste de Filamento (€)</label>
+                <input type="number" id="filamento" step="0.01" min="0" placeholder="Ej: 5.50">
+            </div>
+
+            <div class="input-group">
+                <label for="tiempo">⏱️ Tiempo de Impresión (horas)</label>
+                <input type="number" id="tiempo" step="0.1" min="0" placeholder="Ej: 3.5">
+            </div>
+
+            <div class="input-group">
+                <label for="pintura">🎨 Valor Pintura (€)</label>
+                <input type="number" id="pintura" step="0.01" min="0" placeholder="Ej: 2.00">
+            </div>
+
+            <div class="checkbox-container">
+                <label>
+                    <input type="checkbox" id="diseno">
+                    <span>✏️ Incluir Diseño/Proyección 3D (+10€)</span>
+                </label>
+            </div>
+
+            <button class="btn btn-calculate" onclick="calcular()">
+                📊 Calcular Presupuesto
+            </button>
+            <button class="btn btn-reset" onclick="limpiar()">
+                🔄 Limpiar
+            </button>
+
+            <div class="result-container" id="resultados">
+                <div class="result-title">📊 Desglose del Presupuesto</div>
+
+                <div class="result-item">
+                    <span class="label">📦 Coste Filamento (x2)</span>
+                    <span class="value" id="res-filamento">0.00 €</span>
+                </div>
+
+                <div class="result-item">
+                    <span class="label">⏱️ Tiempo Impresión (x1.5€/h)</span>
+                    <span class="value" id="res-tiempo">0.00 €</span>
+                </div>
+
+                <div class="result-item">
+                    <span class="label">🎨 Valor Pintura</span>
+                    <span class="value" id="res-pintura">0.00 €</span>
+                </div>
+
+                <div class="result-item" id="fila-diseno" style="display: none;">
+                    <span class="label">✏️ Diseño/Proyección 3D</span>
+                    <span class="value">10.00 €</span>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="result-item">
+                    <span class="label">Subtotal</span>
+                    <span class="value" id="res-subtotal">0.00 €</span>
+                </div>
+
+                <div class="result-item">
+                    <span class="label">Margen de Error (5%)</span>
+                    <span class="value" id="res-margen">0.00 €</span>
+                </div>
+
+                <div class="result-total">
+                    <div class="label">💰 PVP FINAL</div>
+                    <div class="value" id="res-pvp">0.00 €</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calcular() {
+            // Obtener valores de los inputs
+            var filamento = parseFloat(document.getElementById('filamento').value);
+            var tiempo = parseFloat(document.getElementById('tiempo').value);
+            var pintura = parseFloat(document.getElementById('pintura').value);
+            var incluirDiseno = document.getElementById('diseno').checked;
+
+            // Validar que sean números válidos
+            if (isNaN(filamento) || isNaN(tiempo) || isNaN(pintura)) {
+                alert('Por favor, completa todos los campos con valores numéricos válidos');
+                return;
+            }
+
+            if (filamento < 0 || tiempo < 0 || pintura < 0) {
+                alert('Los valores no pueden ser negativos');
+                return;
+            }
+
+            // Realizar cálculos
+            var costeFilamento = filamento * 2;
+            var costeTiempo = tiempo * 1.5;
+            var costeDiseno = incluirDiseno ? 10 : 0;
+            var subtotal = costeFilamento + costeTiempo + pintura + costeDiseno;
+            var margen = subtotal * 0.05;
+            var pvp = subtotal * 1.05;
+
+            // Mostrar resultados
+            document.getElementById('res-filamento').textContent = costeFilamento.toFixed(2) + ' €';
+            document.getElementById('res-tiempo').textContent = costeTiempo.toFixed(2) + ' €';
+            document.getElementById('res-pintura').textContent = pintura.toFixed(2) + ' €';
+            document.getElementById('res-subtotal').textContent = subtotal.toFixed(2) + ' €';
+            document.getElementById('res-margen').textContent = margen.toFixed(2) + ' €';
+            document.getElementById('res-pvp').textContent = pvp.toFixed(2) + ' €';
+
+            // Mostrar u ocultar línea de diseño
+            var filaDiseno = document.getElementById('fila-diseno');
+            if (incluirDiseno) {
+                filaDiseno.style.display = 'flex';
+            } else {
+                filaDiseno.style.display = 'none';
+            }
+
+            // Mostrar el contenedor de resultados
+            document.getElementById('resultados').classList.add('visible');
+        }
+
+        function limpiar() {
+            // Limpiar todos los inputs
+            document.getElementById('filamento').value = '';
+            document.getElementById('tiempo').value = '';
+            document.getElementById('pintura').value = '';
+            document.getElementById('diseno').checked = false;
+
+            // Ocultar resultados
+            document.getElementById('resultados').classList.remove('visible');
+        }
+    </script>
+</body>
+</html>
